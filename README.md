@@ -2,7 +2,7 @@
 Bitcoin, Altcoins and Ethereum address collision mining software.
 Multi GPUs, full CUDA optimised.
 
-The unique feature about this software is that each generated private key is tested against millions of Bitcoin, Altcoin or Ethereum addresses. Performances are 44'000'000 keys against 17'000'000 addresses (compressed/uncompressed and Ethereum) per second with a small GTX 1060 3GB we got 748'000'000'000'000 matching per seconds.
+The unique feature about this software is that each generated private key is tested against millions of Bitcoin, Altcoin or Ethereum addresses. Performances are 44'000'000 keys against 17'000'000 addresses (compressed/uncompressed and Ethereum) per second with a small GTX 1060 3GB (748'000'000'000'000 matching per seconds). Mining Rigs are Welcome !
 
 ## Build dependencies
 
