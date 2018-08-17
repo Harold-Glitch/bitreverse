@@ -7,7 +7,9 @@ Multi GPUs, full CUDA optimised.
 Windows:
 Visual Studio 2015
 CUDA 9.2 Toolkit
+Boost
 
 Linux:
 env.sh and compile.sh
 CUDA 9.2 Toolkit
+Boost
