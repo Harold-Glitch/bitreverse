@@ -1,0 +1,72 @@
+﻿  Compiling CUDA source file program.cu...
+  
+  E:\bitreverse\bitreverse>"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\nvcc.exe" -gencode=arch=compute_30,code=\"sm_30,compute_30\" -gencode=arch=compute_35,code=\"sm_35,compute_35\" -gencode=arch=compute_52,code=\"sm_52,compute_52\" -gencode=arch=compute_61,code=\"sm_61,compute_61\" --use-local-env -ccbin "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64" -x cu  -I"E:\glitch\win\vcpkg\installed\x64-windows-static\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include" -I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\include"    --keep --keep-dir x64\Release -maxrregcount=0  --machine 64 --compile -cudart static     -DWIN32 -DWIN64 -DNDEBUG -D_CONSOLE -D_MBCS -Xcompiler "/EHsc /W3 /nologo /O2 /FS /Zi  /MT " -o x64\Release\program.cu.obj "E:\bitreverse\bitreverse\program.cu" 
+e:\bitreverse\bitreverse\web.h(382): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(241): warning : variable "arg" was set but never used
+E:/bitreverse/bitreverse/program.cu(398): warning : returning pointer to local variable
+E:/bitreverse/bitreverse/program.cu(719): warning : variable "remaining" was declared but never referenced
+E:/bitreverse/bitreverse/program.cu(829): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(671): warning : variable "sleeptime" was set but never used
+E:/bitreverse/bitreverse/program.cu(682): warning : variable "offset" was declared but never referenced
+e:\bitreverse\bitreverse\web.h(382): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(241): warning : variable "arg" was set but never used
+E:/bitreverse/bitreverse/program.cu(398): warning : returning pointer to local variable
+E:/bitreverse/bitreverse/program.cu(719): warning : variable "remaining" was declared but never referenced
+E:/bitreverse/bitreverse/program.cu(829): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(671): warning : variable "sleeptime" was set but never used
+E:/bitreverse/bitreverse/program.cu(682): warning : variable "offset" was declared but never referenced
+e:\bitreverse\bitreverse\web.h(382): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(241): warning : variable "arg" was set but never used
+E:/bitreverse/bitreverse/program.cu(398): warning : returning pointer to local variable
+E:/bitreverse/bitreverse/program.cu(719): warning : variable "remaining" was declared but never referenced
+E:/bitreverse/bitreverse/program.cu(829): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(671): warning : variable "sleeptime" was set but never used
+E:/bitreverse/bitreverse/program.cu(682): warning : variable "offset" was declared but never referenced
+e:\bitreverse\bitreverse\web.h(382): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(241): warning : variable "arg" was set but never used
+E:/bitreverse/bitreverse/program.cu(398): warning : returning pointer to local variable
+E:/bitreverse/bitreverse/program.cu(719): warning : variable "remaining" was declared but never referenced
+E:/bitreverse/bitreverse/program.cu(829): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(671): warning : variable "sleeptime" was set but never used
+E:/bitreverse/bitreverse/program.cu(682): warning : variable "offset" was declared but never referenced
+e:\bitreverse\bitreverse\web.h(382): warning : statement is unreachable
+E:/bitreverse/bitreverse/program.cu(398): warning : returning pointer to local variable
+E:/bitreverse/bitreverse/program.cu(829): warning : statement is unreachable
+  program.cu
+e:\bitreverse\bitreverse\secp256k1.h(35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+E:/bitreverse/bitreverse/program.cu(133): warning C4018: '<': signed/unsigned mismatch
+E:/bitreverse/bitreverse/program.cu(330): warning C4244: 'argument': conversion from 'double' to 'uint64_t', possible loss of data
+E:/bitreverse/bitreverse/program.cu(699): warning C4018: '<': signed/unsigned mismatch
+E:/bitreverse/bitreverse/program.cu(733): warning C4018: '<': signed/unsigned mismatch
+  rng.cpp
+rng.cpp(69): warning C4101: 'rnd': unreferenced local variable
+rng.cpp(169): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\string.h(90): note: see declaration of 'strcat'
+rng.cpp(168): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+rng.cpp(172): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(205): note: see declaration of 'fopen'
+rng.cpp(325): warning C4267: 'argument': conversion from 'size_t' to 'uint32_t', possible loss of data
+rng.cpp(367): warning C4244: 'argument': conversion from '__int64' to 'char', possible loss of data
+rng.cpp(399): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+rng.cpp(395): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+rng.cpp(441): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+rng.cpp(442): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  secp256k1.cpp
+e:\bitreverse\bitreverse\secp256k1.h(35): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+e:\bitreverse\bitreverse\secp256k1.h(43): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(2254): note: see declaration of 'sscanf'
+secp256k1.cpp(605): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+secp256k1.cpp(752): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+secp256k1.cpp(777): warning C4267: 'initializing': conversion from 'size_t' to 'uint32_t', possible loss of data
+  Generating code
+  All 584 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  bitreverse.vcxproj -> E:\bitreverse\x64\Release\bitreverse.exe
+  bitreverse.vcxproj -> E:\bitreverse\x64\Release\bitreverse.pdb (Full PDB)
+  copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart*.dll" "E:\bitreverse\x64\Release\"
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart32_92.dll
+  C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.2\bin\cudart64_92.dll
+          2 fichier(s) copié(s).
