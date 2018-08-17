@@ -2,6 +2,8 @@
 Bitcoin, Altcoins and Ethereum address collision mining software.
 Multi GPUs, full CUDA optimised.
 
+The unique feature about this software is that each generated private key is tested against 10 million of Bitcoin, Altcoin or Ethereum addresses.
+
 ## Build dependencies
 
 Windows:
