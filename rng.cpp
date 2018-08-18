@@ -107,7 +107,7 @@ void privkey(uint32_t header, entropy_t &entropy, uint8_t *h_raw)
 	// sha512
 	memcpy(sha.u8, sha512(srnd_os.data(), srnd_os.length()).data(), 64);
 	memcpy(sha.u8, &header, 4);
-			
+	/*
 	int sum = 0;
 	int b = 0;
 		
@@ -138,11 +138,10 @@ void privkey(uint32_t header, entropy_t &entropy, uint8_t *h_raw)
 			}
 		}
 	}
-
+	*/
 	memcpy(h_raw, sha.u8, 32);
 	memcpy(entropy.state, sha.u8 + 32, 32);
 }
-
 
 
 std::string peek_id(fs::path filepath)
@@ -327,8 +326,6 @@ std::string sha512(const void* dat, size_t len)
 
 	return std::string((char *)digest, SHA512::DIGEST_SIZE);
 }
-
-
 
 std::string string_to_hex(const std::string& input)
 {
