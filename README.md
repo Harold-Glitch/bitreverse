@@ -16,6 +16,17 @@ Linux:
   - CUDA 9.2 Toolkit
   - Boost
 
+## REST server
+
+A REST Json server is used to communicate with the GUI (node.js & Electron) The default port is 5132 but it can be changed as the first argument of the command line.
+
+The commands are:
+			/found
+			/device
+			/status
+			/user
+      /version
+
 ## Supporting this project
 
 If you find this project useful and would like to support it, consider making a donation. Your support is greatly appreciated!
