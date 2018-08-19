@@ -1,7 +1,7 @@
-/*
-BITREVERSE - Bitcoin Altcoins and Ethereum address collision finder
-*/
-
+//
+// BITREVERSE - CUDA, MultiGPU, Bitcoin Altcoins and Ethereum address collision finder
+// Harold-Glitch 2017-2018 - harold.glitch@gmail.com
+//
 #include <stdio.h>
 #include <stdint.h>
 #include <vector>
@@ -52,7 +52,7 @@ size_t _sec_filesize;
 
 auto _now = std::chrono::high_resolution_clock::now();
 
-// needed to ask which sofrware version or which block to mine 
+// needed to know which block header to mine 
 std::string _url("http://bitreverse.io/");
 
 std::mutex _mutex;
@@ -108,6 +108,7 @@ uint32_t which_block(std::string id)
 	return val;
 }
 
+// ts_: Thread Safe functions
 void ts_entropy(entropy_t *entropy)
 {
 	std::lock_guard<std::mutex> lock(_mutex);
@@ -165,6 +166,8 @@ void ts_append(std::string file, std::string line)
 	}
 }
 
+
+// ws_: WebService REST request/response
 void wsDevice(WPP::Request* req, WPP::Response* res)
 {
 	nvmlReturn_t result;
