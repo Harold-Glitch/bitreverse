@@ -49,6 +49,9 @@ __constant__ uint32_t _LAMBDA[8] = {
 	0x5363AD4C, 0xC05C30E0, 0xA5261C02, 0x8812645A, 0x122E22EA, 0x20816678, 0xDF02967C, 0x1B23BD72
 };
 
+__device__ int dnKEY_PER_THREAD;
+
+
 __device__ __forceinline__ void copyBigInt(const uint32_t *src, uint32_t *dest)
 {
 	for(int i = 0; i < 8; i++) {
@@ -72,7 +75,7 @@ __device__ bool equal(const uint32_t *a, const uint32_t *b)
  */
 __device__ void readInt(const uint32_t *ara, int idx, uint32_t x[8])
 {
-	int index = ((((blockDim.x * blockIdx.x + threadIdx.x)  * KEY_PER_THREAD) + idx) * 8);
+	int index = ((((blockDim.x * blockIdx.x + threadIdx.x)  * dnKEY_PER_THREAD) + idx) * 8);
 
 	for (int i = 0; i < 8; i++) {
 		x[i] = ara[index];
@@ -85,7 +88,7 @@ __device__ void readInt(const uint32_t *ara, int idx, uint32_t x[8])
  */
 __device__ void writeInt(uint32_t *ara, int idx, const uint32_t x[8])
 {
-	int index = ((((blockDim.x * blockIdx.x + threadIdx.x) * KEY_PER_THREAD) + idx) * 8);
+	int index = ((((blockDim.x * blockIdx.x + threadIdx.x) * dnKEY_PER_THREAD) + idx) * 8);
 
 	for (int i = 0; i < 8; i++) {
 		ara[index] = x[i];
@@ -95,7 +98,7 @@ __device__ void writeInt(uint32_t *ara, int idx, const uint32_t x[8])
 
 __device__ void writePoint(uint32_t *arx, uint32_t *ary, int idx, const uint32_t x[8], const uint32_t y[8])
 {
-	int index = ((((blockDim.x * blockIdx.x + threadIdx.x) * KEY_PER_THREAD) + idx) * 8);
+	int index = ((((blockDim.x * blockIdx.x + threadIdx.x) * dnKEY_PER_THREAD) + idx) * 8);
 
 	for (int i = 0; i < 8; i++) {
 		arx[index] = x[i];

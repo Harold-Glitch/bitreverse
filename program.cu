@@ -47,6 +47,8 @@ namespace fs = boost::filesystem;
 #include "keccak.cuh"
 #include "ripemd160.cuh"
 
+#include "INIReader.h"
+
 std::vector<ec_ge_t> _ecVector;
 size_t _sec_filesize;
 
@@ -437,12 +439,9 @@ __global__ void k_generate(ec_ge_t *dec, uint8_t *ppriKey, uint8_t *ppubKeyX, ui
 	uint8_t *priKey = ppriKey + (id * 32);
 	uint8_t *pubKeyX = ppubKeyX + (id * 32);
 	uint8_t *pubKeyY = ppubKeyY + (id * 32); 
-
 	
 	for (int n = 0; n < 32; n++)
 		u8[n] = priKey[n];
-	
-	//memcpy(priKey, u8, 32);
 
 	for (int n = 0; n < 16; n++)
 		dec_gej_add_ge_var(&pj, &pj, &dec[precomputedOffset[n] + (u8[30 - (n * 2)] << 8) + u8[31 - (n * 2)]], NULL);
@@ -456,7 +455,7 @@ __global__ void k_generate(ec_ge_t *dec, uint8_t *ppriKey, uint8_t *ppubKeyX, ui
 	dec_fe_get_b32(pubKeyY, &p.y);
 }
 
-__global__ void k_next(uint32_t *px, uint32_t *py)
+__global__ void k_next(int keyperthread, uint32_t *px, uint32_t *py)
 {
 	if (dnAddressFound != -1)
 		return;
@@ -465,9 +464,9 @@ __global__ void k_next(uint32_t *px, uint32_t *py)
 	uint32_t x[8];
 	uint32_t y[8];
 	
-	uint32_t chain[8 * 32];
+	uint32_t chain[8 * 128];
 
-	for (int i = 0; i < KEY_PER_THREAD; i++) {
+	for (int i = 0; i < keyperthread; i++) {
 
 		readInt(px, i, x);
 		readInt(py, i, y);
@@ -477,7 +476,7 @@ __global__ void k_next(uint32_t *px, uint32_t *py)
 
 	doBatchInverse(inverse);
 
-	for (int i = KEY_PER_THREAD - 1; i >= 0; i--) {
+	for (int i = keyperthread - 1; i >= 0; i--) {
 
 		completeBatchAdd(_INC_X, _INC_Y, px, py, i, chain, inverse, x, y);
 		writeInt(px, i, x);	
@@ -597,7 +596,7 @@ void cracker(arguments_t ta)
 	CudaSafeCall(cudaSetDevice(ta.device));
 	//cudaDeviceSetCacheConfig(cudaFuncCachePreferL1);
 
-	uint32_t BLOCK_SIZE = (2048 * 2048);
+	uint32_t BLOCK_SIZE = (ta.block_size * ta.block_size);
 	entropy_t entropy = { 0 };
 
 	// Add CUDA device properties to entropy
@@ -666,10 +665,11 @@ void cracker(arguments_t ta)
 
 	_mutex.unlock();
 
+	int keyperthread = ta.key_per_thread;
 	dim3 griddim, griddim2, blockdim;
 	blockdim = dim3(THREADS_PER_BLOCK, 1, 1);
 	griddim = dim3(BLOCK_SIZE / blockdim.x, 1, 1);
-	griddim2 = dim3(BLOCK_SIZE / KEY_PER_THREAD / blockdim.x, 1, 1);
+	griddim2 = dim3(BLOCK_SIZE / keyperthread / blockdim.x, 1, 1);
 
 	float sleeptime = 0;
 	double kps = 0;
@@ -690,14 +690,16 @@ void cracker(arguments_t ta)
 
 	uint64_t processed = 0;
 
+	CudaSafeCall(cudaMemcpyToSymbol((const void *)&dnKEY_PER_THREAD, &keyperthread, sizeof(int), 0, cudaMemcpyHostToDevice));
+
 	while (true) {
 
-		// Add key per second to entropy
+		// Add key per second to entropy 
 		entropy.kps = kps;
 		ts_entropy(&entropy);
 		seedkey(entropy);
 		
-		printf("$BITREVERSE-I-SEEDING, Seeding new batch for device %d\n", ta.device);
+		printf("$BITREVERSE-I-SEEDING, Seeding new batch for device %d - kt:%d bs:%d\n", ta.device, keyperthread, BLOCK_SIZE);
 
 		for (int n = 0; n < BLOCK_SIZE; n++) {
 
@@ -746,7 +748,7 @@ void cracker(arguments_t ta)
 					k_generate << < griddim, blockdim >> > (ecPrecomputed, d_private, d_publicX, d_publicY);
 				}
 				else {
-					k_next << <griddim2, blockdim >> > ( (uint32_t *)d_publicX, (uint32_t *)d_publicY);
+					k_next << <griddim2, blockdim >> > (keyperthread, (uint32_t *)d_publicX, (uint32_t *)d_publicY);
 				}
 
 				k_digest << < griddim, blockdim >> > (d_publicX, d_publicY, d_digest_u, d_digest_c, d_digest_h);
@@ -883,16 +885,34 @@ int main(int argc, char **argv)
 {
     std::thread *tgpu;
 	int ngpu;
-	int ntcp = 5132;
+	int ntcp = 5132;		
+
+	cudaGetDeviceCount(&ngpu);
+	arguments_t *ta = new arguments_t[ngpu];
+
+	INIReader reader("bitreverse.ini");
+
+	for (int i = 0; i < ngpu; i++) {
+		cudaDeviceProp prop;
+		cudaGetDeviceProperties(&prop, i);
+		std::string s(prop.name);
+		std::replace(s.begin(), s.end(), ' ', '_');
+		
+		ta[i].block_size = reader.GetReal("block_size", s.c_str(), 2048);
+		ta[i].key_per_thread = reader.GetReal("key_per_thread", s.c_str(), 32);
+	}
 
 	// if there is one command line argument, it is the port number for REST server
 	if (argc > 1) {
+
 		char* p;
 		strtol(argv[1], &p, 10);
 		if (*p == 0) {
 			ntcp = atoi(argv[1]);	
 		}
 	}
+
+
 	
 	if (signal(SIGINT, sig_handler) == SIG_ERR)
 		printf("$SYSTEM-I-SIGINT, can't catch SIGINT\n");
@@ -971,12 +991,12 @@ int main(int argc, char **argv)
 	uint32_t wb = which_block(_id);
 	
 	tgpu = new std::thread[ngpu];
-	arguments_t *ta = new arguments_t[ngpu];
 
 	// Launch a group of threads
 	for (int i = 0; i < ngpu; ++i) {
 		ta[i].device = i;
 		ta[i].header = wb;
+		
 		tgpu[i] = std::thread(cracker, ta[i]);
 	}
 

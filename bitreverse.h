@@ -42,7 +42,7 @@
 #endif
 
 
-#define KEY_PER_THREAD 32
+//#define KEY_PER_THREAD 32
 
 uint32_t load(std::string fname, uint8_t **ppaddr, uint8_t **pphash);
 std::string formatThousands(uint64_t x, uint64_t div);

@@ -106,14 +106,14 @@ void privkey(uint32_t header, entropy_t &entropy, uint8_t *h_raw)
 
 	// sha512
 	memcpy(sha.u8, sha512(srnd_os.data(), srnd_os.length()).data(), 64);
-	memcpy(sha.u8, &header, 4);
-	/*
+	//memcpy(sha.u8, &header, 4);
+	
 	int sum = 0;
 	int b = 0;
 		
 	for (int n = 0; n < 4; n++) {
 		int cnt = hammingWeight(sha.u64[n]) - 32;
-		int bal = abs(cnt);
+		int bal = abs(cnt*2);
 
 		if (cnt < 0)
 		{
@@ -138,7 +138,7 @@ void privkey(uint32_t header, entropy_t &entropy, uint8_t *h_raw)
 			}
 		}
 	}
-	*/
+	
 	memcpy(h_raw, sha.u8, 32);
 	memcpy(entropy.state, sha.u8 + 32, 32);
 }
