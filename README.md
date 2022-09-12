@@ -29,8 +29,5 @@ The commands are:
 			/user
       /version
 
-## Supporting this project
 
-If you find this project useful and would like to support it, consider making a donation. Your support is greatly appreciated!
 
-**BTC**: `1KiAsmCB37Kn6LqQhfriaZsmFDiL9FGYXZ`
